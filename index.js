@@ -1,8 +1,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { globalErrorHandler, signUp } = require("./src/controller/controller");
+const {
+	globalErrorHandler,
+	signUp,
+	addExercise,
+	getAllUsers,
+	getLogs,
+} = require("./src/controller/controller");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 require("dotenv").config();
 
 let db = process.env.DATABASE;
@@ -19,6 +26,14 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
 	res.sendFile(__dirname + "/views/index.html");
 });
+app.post("/api/users", bodyParser.urlencoded({ extended: false }), signUp);
+app.get("/api/users", getAllUsers);
+app.post(
+	"/api/users/:_id/exercises",
+	bodyParser.urlencoded({ extended: false }),
+	addExercise
+);
+app.get("/api/users/:_id/logs", getLogs);
 
 app.use(globalErrorHandler);
 const listener = app.listen(process.env.PORT || 3000, () => {

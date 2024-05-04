@@ -5,17 +5,14 @@ const userSchema = new mongoose.Schema({
 		required: [true, "username is required"],
 		unique: true,
 	},
+	exercise: { type: Array, default: [] },
 });
 const User = mongoose.model("User", userSchema);
 
 const exerciseSchema = {
-	username: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
-	},
 	description: { type: String, required: [true, "description is required"] },
 	duration: { type: Number, required: [true, "duration is required"] },
-	date: { type: Date, default: Date.now },
+	date: { type: String },
 };
 const Exercise = mongoose.model("Exercise", exerciseSchema);
 
